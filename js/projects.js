@@ -2,7 +2,7 @@
 
     function loadHomepage() {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', '/api/contents?type=Event');
+        xhr.open('GET', '/api/contents?type=Project');
         xhr.onreadystatechange = renderHomepage;
         xhr.send(null);
     }
@@ -15,18 +15,19 @@
 
         if (xhr.readyState === DONE) {
             if (xhr.status === OK) {
-                const evnts = window.JSON.parse(xhr.responseText).data;
-                console.log(evnts);
-                if(evnts.length === 0){
-                    html = '<p><strong>there have not been any events added, <a href="/admin">go add some at /admin</a></strong></p>';
+                const projects = window.JSON.parse(xhr.responseText).data;
+                console.log(projects);
+                if(projects.length === 0){
+                    html = '<p><strong>there have not been any projects added, <a href="/admin">go add some at /admin</a></strong></p>';
                 } else {
-                    html = evnts.map(function(evnt) {
+                    html = projects.map(function(project) {
                         return `
                             <article>
-                                <h3>${evnt.title || 'unknown'} from ${evnt.start || 'unknown'} to ${evnt.finish || 'unknown'}</h3>
-                                <p>location: ${evnt.location || 'unknown'}</p>
+                                <h3>${project.name || 'unknown'}</h3>
+                                <p><img src="${project.splash-image || ''}" /></p>
+                                <p>summary: ${project.summary || 'none'}</p>
                                 <h6>description:</h6>
-                                <div>${evnt.description || 'none'}
+                                <div>${project.description || 'none'}
                             </article>
                         `;
                     }).join();

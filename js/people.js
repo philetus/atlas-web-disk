@@ -2,7 +2,7 @@
 
     function loadHomepage() {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', '/api/contents?type=Event');
+        xhr.open('GET', '/api/contents?type=Person');
         xhr.onreadystatechange = renderHomepage;
         xhr.send(null);
     }
@@ -15,18 +15,19 @@
 
         if (xhr.readyState === DONE) {
             if (xhr.status === OK) {
-                const evnts = window.JSON.parse(xhr.responseText).data;
-                console.log(evnts);
-                if(evnts.length === 0){
-                    html = '<p><strong>there have not been any events added, <a href="/admin">go add some at /admin</a></strong></p>';
+                const people = window.JSON.parse(xhr.responseText).data;
+                console.log(people);
+                if(people.length === 0){
+                    html = '<p><strong>there have not been any people added, <a href="/admin">go add some at /admin</a></strong></p>';
                 } else {
-                    html = evnts.map(function(evnt) {
+                    html = people.map(function(person) {
                         return `
                             <article>
-                                <h3>${evnt.title || 'unknown'} from ${evnt.start || 'unknown'} to ${evnt.finish || 'unknown'}</h3>
-                                <p>location: ${evnt.location || 'unknown'}</p>
-                                <h6>description:</h6>
-                                <div>${evnt.description || 'none'}
+                                <h3>${person.name || 'unknown'} - ${person.role || 'unknown'}</h3>
+                                <p><img src="${person.portrait || ''}" /></p>
+                                <p>quip: ${person.quip || 'none'}</p>
+                                <h6>bio:</h6>
+                                <div>${person.bio || 'none'}
                             </article>
                         `;
                     }).join();

@@ -2,7 +2,7 @@
 
     function loadHomepage() {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', '/api/contents?type=Event');
+        xhr.open('GET', '/api/contents?type=Publication');
         xhr.onreadystatechange = renderHomepage;
         xhr.send(null);
     }
@@ -15,18 +15,22 @@
 
         if (xhr.readyState === DONE) {
             if (xhr.status === OK) {
-                const evnts = window.JSON.parse(xhr.responseText).data;
-                console.log(evnts);
-                if(evnts.length === 0){
+                const pubs = window.JSON.parse(xhr.responseText).data;
+                console.log(pubs);
+                if(pubs.length === 0){
                     html = '<p><strong>there have not been any events added, <a href="/admin">go add some at /admin</a></strong></p>';
                 } else {
-                    html = evnts.map(function(evnt) {
+                    html = pubs.map(function(pub) {
                         return `
                             <article>
-                                <h3>${evnt.title || 'unknown'} from ${evnt.start || 'unknown'} to ${evnt.finish || 'unknown'}</h3>
-                                <p>location: ${evnt.location || 'unknown'}</p>
-                                <h6>description:</h6>
-                                <div>${evnt.description || 'none'}
+                                <h3>${pub.title || 'unknown'}</h3>
+                                <p>format: ${pub.format || 'unknown'}</p>
+                                <p>year: ${pub.year || 'unknown'}</p>
+                                <p>citation: ${pub.citation || 'unknown'}</p>
+                                <p><a href="${pub.pdf || '#'}">pdf</a></p>
+                                <p><a href="${pub.url || '#'}">url link</a></p>
+                                <h6>abstract:</h6>
+                                <div>${pub.abstract || 'none'}
                             </article>
                         `;
                     }).join();

@@ -2,7 +2,7 @@
 
     function loadHomepage() {
         const xhr = new XMLHttpRequest();
-        xhr.open('GET', '/api/contents?type=Event');
+        xhr.open('GET', '/api/contents?type=Lab');
         xhr.onreadystatechange = renderHomepage;
         xhr.send(null);
     }
@@ -15,18 +15,20 @@
 
         if (xhr.readyState === DONE) {
             if (xhr.status === OK) {
-                const evnts = window.JSON.parse(xhr.responseText).data;
-                console.log(evnts);
-                if(evnts.length === 0){
-                    html = '<p><strong>there have not been any events added, <a href="/admin">go add some at /admin</a></strong></p>';
+                const labs = window.JSON.parse(xhr.responseText).data;
+                console.log(labs);
+                if(labs.length === 0){
+                    html = '<p><strong>there have not been any labs added, <a href="/admin">go add some at /admin</a></strong></p>';
                 } else {
-                    html = evnts.map(function(evnt) {
+                    html = labs.map(function(lab) {
                         return `
                             <article>
-                                <h3>${evnt.title || 'unknown'} from ${evnt.start || 'unknown'} to ${evnt.finish || 'unknown'}</h3>
-                                <p>location: ${evnt.location || 'unknown'}</p>
+                                <h3>${lab.name || 'unknown'}</h3>
+                                <p><img src="${lab.splash-image || ''}" /></p>
+                                <p><a href="${lab.directors[0] || '#'}">director</a></p>
+                                <p>mission: ${lab.mission || 'unknown'}</p>
                                 <h6>description:</h6>
-                                <div>${evnt.description || 'none'}
+                                <div>${lab.description || 'none'}
                             </article>
                         `;
                     }).join();
