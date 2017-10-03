@@ -24,7 +24,7 @@
                         return `
                             <article>
                                 <h3>${lab.name || 'unknown'}</h3>
-                                <p><img src="${lab.splash-image || ''}" /></p>
+                                <p><img src="${lab['splash-image'] || ''}" /></p>
                                 <p><a href="${lab.directors[0] || '#'}">director</a></p>
                                 <p>mission: ${lab.mission || 'unknown'}</p>
                                 <h6>description:</h6>

@@ -24,7 +24,7 @@
                         return `
                             <article>
                                 <h3>${project.name || 'unknown'}</h3>
-                                <p><img src="${project.splash-image || ''}" /></p>
+                                <p><img src="${project['splash-image'] || ''}" /></p>
                                 <p>summary: ${project.summary || 'none'}</p>
                                 <h6>description:</h6>
                                 <div>${project.description || 'none'}
